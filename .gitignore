@@ -1,0 +1,7 @@
+.venv
+.mypy_cache
+__pycache__
+.pytest_cache
+.python-version
+*.jpg
+data
