@@ -1,6 +1,6 @@
 import warnings
-from typing import Optional
 
+import numpy as np
 from sfbox_api import Composition, Frame, Lat, Mol, Mon, Sys
 
 
@@ -15,14 +15,14 @@ def brush_frame(
     chi: float = 0.0,
     n_layers: int = 0,
     folder: str = "",
-) -> Optional[Frame]:
+) -> Frame:
 
     if n_layers == 0:
         n_layers = 1 + m1 * P1 + m2 * P2 + m2
 
     if m1 < 1 or m2 < 2 or n1 < 0 or n2 < 0 or P1 < 1 or P2 < 2:
-        warnings.warn("Set incorrected parameters")
-        return None
+        # warnings.warn("Set incorrected parameters")
+        raise ValueError("Set incorrected parameters")
 
     # Topological script
     if n1 == 0 and n2 == 0:
@@ -78,10 +78,30 @@ def brush_frame(
 
     frame = Frame(lat, sys, mols, mons, chi_list=chi_list)
     frame.text += "sys : name : overflow_protection : true"
-    try:
-        frame.run(folder=folder)
-
-    except TimeoutError:
-        return None
 
     return frame
+
+
+def frame_proccesing(*args, **kwargs) -> Frame:
+
+    frame = brush_frame(*args, **kwargs)
+
+    return frame
+
+
+def frame_calc(frame: Frame, folder: str) -> None:
+    try:
+        frame.run(folder)
+        data = np.vstack(
+            [
+                frame.profile["layer"],
+                frame.profile["pol"],
+                frame.profile["L"],
+                frame.profile["E"],
+            ]
+        )
+        header = "z    phi    L    E"
+        np.savetxt(f"{folder}.txt", data.T, header=header, comments="")
+        print(f"{folder} is OK")
+    except TimeoutError:
+        warnings.warn(f"Error in {folder}")
