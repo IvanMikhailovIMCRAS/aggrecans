@@ -26,13 +26,13 @@ def brush_frame(
 
     # Topological script
     if n1 == 0 and n2 == 0:
-        comp = f"(X)1((A)1{m1}){P1}(L){1}(B){m2-1}((B){m2}){P2-1}(B){m2-1}(E)1"
+        comp = f"(X)1((A){m1}){P1}(L){1}(B){m2-1}((B){m2}){P2-1}(B){m2-1}(E)1"
     elif n1 != 0 and n2 == 0:
-        comp = f"(X)1((A)1{m1}[(A){n1}]){P1}(L){1}(B){m2-1}((B){m2}){P2-1}(B){m2-1}(E)1"
+        comp = f"(X)1((A){m1}[(A){n1}]){P1}(L){1}(B){m2-1}((B){m2}){P2-1}(B){m2-1}(E)1"
     elif n1 == 0 and n2 != 0:
-        comp = f"(X)1((A)1{m1}){P1}(L){1}(B){m2-1}[(B){n2}]((B){m2}[(B){n2}]){P2-1}(B){m2-1}(E)1"
+        comp = f"(X)1((A){m1}){P1}(L){1}(B){m2-1}[(B){n2}]((B){m2}[(B){n2}]){P2-1}(B){m2-1}(E)1"
     else:
-        comp = f"(X)1((A)1{m1}[(A){n1}]){P1}(L){1}(B){m2-1}[(B){n2}]((B){m2}[(B){n2}]){P2-1}(B){m2-1}(E)1"
+        comp = f"(X)1((A){m1}[(A){n1}]){P1}(L){1}(B){m2-1}[(B){n2}]((B){m2}[(B){n2}]){P2-1}(B){m2-1}(E)1"
 
     theta = sigma * Composition(comp).N
 
